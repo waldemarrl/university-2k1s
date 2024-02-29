@@ -1,0 +1,20 @@
+
+DECLARE CURS CURSOR GLOBAL FOR
+SELECT PULPIT.PULPIT
+FROM PULPIT
+WHERE PULPIT.FACULTY like 'евшв'
+
+DECLARE @ALL char(20), @F char(300) = ' '
+OPEN CURS
+FETCH CURS into @ALL
+while @@FETCH_STATUS =0
+begin 
+set @F =  RTRIM(@ALL) + ','+  @F;
+FETCH CURS into @ALL
+end
+
+print @F
+
+DEALLOCATE CURS
+
+

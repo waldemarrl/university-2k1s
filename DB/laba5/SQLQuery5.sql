@@ -1,0 +1,83 @@
+---------------
+SELECT FACULTY.FACULTY_NAME AS Факультет, 
+PULPIT.PULPIT_NAME AS Кафедра
+FROM FACULTY, PULPIT
+WHERE PULPIT.FACULTY = FACULTY.FACULTY
+AND FACULTY.FACULTY IN (
+SELECT PROFESSION.FACULTY
+FROM PROFESSION
+WHERE (PROFESSION_NAME LIKE '%технологи%'))
+--------------
+
+SELECT FACULTY.FACULTY_NAME AS Факультет,
+PULPIT.PULPIT_NAME AS Кафедра
+FROM FACULTY INNER JOIN PULPIT
+ON PULPIT.FACULTY = FACULTY.FACULTY
+WHERE FACULTY.FACULTY IN (
+SELECT PROFESSION.FACULTY
+FROM PROFESSION
+WHERE (PROFESSION_NAME LIKE '%технологи%'))
+-------------------
+
+SELECT Distinct FACULTY.FACULTY_NAME AS Факультет,
+PULPIT.PULPIT_NAME AS Кафедра
+FROM FACULTY INNER JOIN PULPIT 
+ON PULPIT.FACULTY = FACULTY.FACULTY
+INNER JOIN PROFESSION
+ON PROFESSION.FACULTY = FACULTY.FACULTY
+WHERE (PROFESSION_NAME LIKE '%технологи%')
+------------------
+
+SELECT AUDITORIUM_TYPE AS [Тип аудитории],
+AUDITORIUM_CAPACITY AS Вместимость
+FROM AUDITORIUM a
+WHERE AUDITORIUM_TYPE = (
+SELECT TOP(1) AUDITORIUM_TYPE 
+FROM AUDITORIUM aa
+WHERE aa.AUDITORIUM_TYPE = a.AUDITORIUM_TYPE)
+ORDER BY AUDITORIUM_CAPACITY desc
+--------------------------
+
+SELECT FACULTY_NAME AS Факультет
+FROM FACULTY
+WHERE  NOT EXISTS (SELECT * FROM PULPIT 
+WHERE FACULTY.FACULTY = PULPIT.FACULTY)
+-------------------------
+
+SELECT TOP 1
+(SELECT AVG(NOTE) FROM PROGRESS
+WHERE SUBJECT LIKE 'ОАиП') [ОАиП],
+(SELECT AVG(NOTE) FROM PROGRESS
+WHERE SUBJECT LIKE 'СУБД') [СУБД],
+(SELECT AVG(NOTE) FROM PROGRESS
+WHERE SUBJECT LIKE 'БД') [БД]
+---------------------
+
+SELECT DISTINCT NOTE AS Оценка,
+SUBJECT AS Дисциплина
+FROM PROGRESS
+WHERE NOTE >=ALL (
+SELECT NOTE FROM PROGRESS
+WHERE SUBJECT LIKE '%ОАиП')
+------------------------
+
+SELECT DISTINCT TOP 2 NOTE AS Оценка,
+SUBJECT AS Дисциплина
+FROM PROGRESS
+WHERE NOTE >=ANY (
+SELECT NOTE FROM PROGRESS
+WHERE SUBJECT LIKE '%ОАиП')
+------------------------
+
+SELECT КЛИЕНТ.[Название фирмы-клиента]
+FROM КРЕДИТ, КЛИЕНТ
+WHERE КРЕДИТ.[Название фирмы-клиента] = КЛИЕНТ.[Название фирмы-клиента] and КРЕДИТ.[Номер вида] in (SELECT [ВИД КРЕДИТА].[Номер вида]
+FROM [ВИД КРЕДИТА]
+WHERE [ВИД КРЕДИТА].[Номер вида] like 1)
+
+----------------------------------
+SELECT [ВИД КРЕДИТА].[Номер вида]
+FROM [ВИД КРЕДИТА], КРЕДИТ
+WHERE КРЕДИТ.[Название фирмы-клиента] in (SELECT [Название фирмы-клиента] 
+FROM КРЕДИТ 
+WHERE [Название фирмы-клиента] like '%AMD%')

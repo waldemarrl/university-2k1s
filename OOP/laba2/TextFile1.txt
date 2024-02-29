@@ -1,0 +1,81 @@
+﻿////////////////////////////////////////
+using System;
+
+public class Program
+{
+    public partial class Data 
+    {
+        public int key;
+        public int id;
+        public string Name;
+        public string Surname;
+        public string Patronymic;
+        public int PhoneNum;
+        public int[] mark;
+        public class Addres 
+        {
+            public string Republic;
+            public string City;
+            public string Street;
+            public string Home;
+            public Addres(string _Republic, string _City, string _Street, string _Home)
+            {
+                Republic = _Republic;
+                City = _City;
+                Street = _Street;
+                Home = _Home;
+            }
+        }
+
+        public Data (int _key, int _id, string _Name, string _Surname, string _Patronymic, int _PhoneNum, int [] _mark)
+        {
+            key = _id;
+            id = _id;
+            Name = _Name;
+            Surname = _Surname;
+            Patronymic = _Patronymic;
+            mark = _mark;
+        }
+    }
+
+
+    public partial class Function
+    {
+        public static void AddStud()
+        {
+            int d = 0;
+            d = Convert.ToInt32(Console.Read());
+            Data[] database = new Data[d];
+            var pt = new Data.Addres[d];
+            int n = Convert.ToInt32(Console.Read());
+            for (int i = 0; i > n; i++)
+            {
+                int pKey = i;
+                int pid = Convert.ToInt32(Console.Read());
+                string pName = Convert.ToString(Console.Read());
+                string pSurname = Convert.ToString(Console.Read());
+                string pPatronymic = Convert.ToString(Console.Read());
+                int pPhone = Convert.ToInt32(Console.Read());
+                int pArr= Convert.ToInt32(Console.Read());
+                int[] pMark;
+                int[] arr = new int[pArr];
+                for (int ar = 0; ar < pArr; ar++)
+                {
+                    int value = Convert.ToInt32(Console.Read());
+                    arr[ar] = value;
+                }
+                pMark = arr;
+                string pRepublic = Convert.ToString(Console.Read());
+                string pCity = Convert.ToString(Console.Read());
+                string pStreet = Convert.ToString(Console.Read());
+                string pHome = Convert.ToString(Console.Read());
+                database[i] = new Data(pKey, pid, pName, pSurname, pPatronymic, pPhone, pMark);
+                pt[i] = new Data.Addres(pRepublic, pCity, pStreet, pHome);
+            }
+        }
+        static void Main()
+        {
+            AddStud();
+        }
+    }
+}

@@ -1,0 +1,4 @@
+SELECT isnull (TEACHER.TEACHER_NAME, '***') [Преподаватель],
+PULPIT.PULPIT_NAME as Кафедра
+FROM TEACHER Right Outer Join PULPIT
+ON PULPIT.PULPIT = TEACHER.PULPIT
